@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Timetable Admin</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            padding-top: 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 1000; /* Ensure sidebar is on top */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .sidebar a {
+            color: #adb5bd;
+            padding: 15px 20px;
+            display: block;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+            color: #fff;
+        }
+
+        .sidebar .logout {
+            margin-top: auto;
+            border-top: 1px solid #495057;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            margin-left: 250px; /* Space for sidebar */
+            margin-bottom: 80px; /* Space for sticky prompt input */
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #495057;
+        }
+
+        .about-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .response-heading {
+            background-color: #007bff; /* Blue color for headings */
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .response-heading::before {
+            content: "\f27a";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .response-content {
+            background-color: #d1ecf1; /* Light blue background for content */
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-style: italic;
+            border-left: 4px solid #007bff;
+        }
+
+        .additional-heading {
+            background-color: #28a745; /* Green color for headings */
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .additional-heading::before {
+            content: "\f0ae";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .additional-content {
+            background-color: #d4edda; /* Light green background for content */
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 4px dashed #28a745;
+        }
+
+        .prompt-container {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 250px; /* Align with content area */
+            width: calc(100% - 250px); /* Full width minus sidebar width */
+            z-index: 1000; /* Ensure prompt container is on top */
+        }
+
+        .prompt-container input {
+            flex: 1;
+            margin-right: 10px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+        .prompt-container button {
+            border-radius: 30px;
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Admin</h2>
+        <a href="#"><i class="fas fa-calendar-day"></i> Timetable Management</a>
+        <a href="#"><i class="fas fa-calendar-day"></i> Faculty Timetable</a>
+        <a href="#"><i class="fas fa-calendar-week"></i> Student Timetable</a>
+        <a href="#"><i class="fas fa-calendar-alt"></i> Master Timetable</a>
+        <div class="logout">
+            <a href="index.html" class="text-light"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h4>College Timetable Management</h4>
+        </div>
+
+        <!-- About This Timetable Section -->
+        <div class="about-section">
+            <h5>About This Timetable</h5>
+            <p>This section allows you to manage and modify the college timetable. You can update schedules for faculty, students, and view the master timetable to ensure all classes and resources are properly allocated.</p>
+        </div>
+
+        <!-- Dynamic Output Area -->
+        <div id="outputContainer"></div>
+    </div>
+
+    <!-- Prompt Container -->
+    <div class="prompt-container">
+        <input type="text" id="promptInput" class="form-control" placeholder="Enter your prompt">
+        <button id="submitPrompt" class="btn btn-primary">Send</button>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function handlePromptSubmission() {
+            const promptInput = document.getElementById('promptInput').value;
+            const outputContainer = document.getElementById('outputContainer');
+
+            if (promptInput.trim() !== '') {
+                // Create a new output section
+                const newOutputSection = document.createElement('div');
+                newOutputSection.className = 'output-section';
+
+                // Add "Your Responses:" heading
+                const responseHeading = document.createElement('h5');
+                responseHeading.className = 'response-heading';
+                responseHeading.textContent = 'Your Responses:';
+                newOutputSection.appendChild(responseHeading);
+
+                // Add the response under "Your Responses:"
+                const newResponse = document.createElement('p');
+                newResponse.className = 'response-content';
+                newResponse.textContent = 'You asked: ' + promptInput;
+                newOutputSection.appendChild(newResponse);
+
+                // Add "Additional Output:" heading
+                const additionalHeading = document.createElement('h5');
+                additionalHeading.className = 'additional-heading';
+                additionalHeading.textContent = 'Additional Output:';
+                newOutputSection.appendChild(additionalHeading);
+
+                // Add the additional output under "Additional Output:"
+                const additionalResponse = document.createElement('p');
+                additionalResponse.className = 'additional-content';
+                additionalResponse.textContent = 'Processing your input: ' + promptInput;
+                newOutputSection.appendChild(additionalResponse);
+
+                // Append the new output section to the output container
+                outputContainer.appendChild(newOutputSection);
+
+                // Scroll to the bottom to show the latest output
+                newOutputSection.scrollIntoView({ behavior: 'smooth' });
+
+                // Clear the input
+                document.getElementById('promptInput').value = '';
+            }
+        }
+
+        document.getElementById('submitPrompt').addEventListener('click', handlePromptSubmission);
+
+        document.getElementById('promptInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent the form from submitting
+                handlePromptSubmission();
+            }
+        });
+    </script>
+</body>
+
+</html>
